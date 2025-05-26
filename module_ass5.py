@@ -81,9 +81,27 @@ def exact_solution_ode1(t):
 
 
 def mean_absolute_error(y_exact, y_approx):
-    """ TODO
     """
-    pass
+    Calculates the Mean Absolute Error (MAE) between an exact solution and
+    a numerical approximation, excluding the initial condition.
+
+    Parameters
+    ----------
+    y_exact : 1D numpy array
+        Exact solution including initial condition.
+    y_approx : 1D numpy array
+        Approximate (numerical) solution including initial condition.
+
+    Returns
+    -------
+    mae : float
+        Mean absolute error, excluding the initial condition.
+    """
+    total = 0
+    for i in range(1, len(y_exact)):
+        total += abs(y_exact[i] - y_approx[i])
+    mae = total / (len(y_exact) - 1)
+    return mae
 
 
 def derivative_ode1(t, y):
@@ -109,7 +127,6 @@ def derivative_ode1(t, y):
     dydt = 2 * np.exp(-5 * t) - 5 * y
 
     return dydt
-
 
 
 def euler_step(f, t, y, h):

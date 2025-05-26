@@ -8,18 +8,7 @@ x = 1 + 2**-29
 y = 1 + 2**-30
 difference_squares(x, y)
 
-# a) Comment:
-# The values of z1 and z2 are very close but may differ slightly in the least significant digits.
-
-# b) Two reasons they differ:
-# 1. Floating-Point Precision: In Python, float uses 64-bit precision (IEEE 754). Squaring large, close numbers
-# can amplify rounding errors, especially for small differences.
-# 2. Subtractive Cancellation: The method z1 = x^2 - y^2 involves subtracting two similar-sized numbers.
-# This can lead to loss of significant digits, making the result less accurate.
-
-# c) More Accurate Result:
-# z2 = (x - y)(x + y) is generally more accurate in floating-point arithmetic because it avoids squaring and
-# then subtracting nearly equal numbers — reducing the effects of cancellation.
+# a, b, c) Comments:
 
 # -------------------------------------------------------------------
 
@@ -43,7 +32,47 @@ relative_error_subtraction(x, y, z_exact)
 
 # Code for Task 2.4: numerically solving the ODE goes here
 
+# a) Numerical solution using solve_ivp (t(0) to t(2))
+t_span = [0, 2]
+y_initial = [4]
+
+solution = solve_ivp(derivative_ode1, t_span, y_initial)
+
+# Time values from solver
+t_values = solution.t
+# Approximate solution
+y_numerical = solution.y[0]
+
+#b) Exact solution at same time points
+y_exact = exact_solution_ode1(t_values)
+
+#c) Plot exact and numerical solutions
+plt.figure()
+    #blue lines for Exact solution
+plt.plot(t_values, y_exact, 'b-', label='Exact solution')
+    # Red circles for numerical solution
+plt.plot(t_values, y_numerical, 'ro', label='Numerical solution')
+plt.title('Comparison of Exact and Numerical Solutions')
+plt.xlabel('Time/t')
+plt.ylabel('Solution/y')
+plt.legend()
+
+# d) Save the figure
+plt.savefig("ode1ComparisonPlot.jpg")
+plt.close()
+
 # Code and comments for Task 2.6: investigating the MAE goes here
+
+mae = mean_absolute_error(y_exact, y_numerical)
+print(f"Mean Absolute Error = {mae:.6f}")
+
+# a) What is the value of MAE when solving the given ODE?
+
+# b) Based on this and a visual comparison of the exact and approximate solutions,
+# comment on how accurate this solution is.
+
+# c) Note that the calculation of MAE may itself be subject to numerical error.
+# Briefly comment on two ways that numerical error may be incurred.
 
 # set Butcher tableau for Euler method
 alpha_euler = np.array([1.])
