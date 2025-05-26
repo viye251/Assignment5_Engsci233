@@ -151,13 +151,14 @@ for h in step_sizes:
         mae = mean_absolute_error(y_exact, np.array(y_approx))
         mae_results[method_name].append(mae)
 
-# Display the results in a formatted table
-print("\nStep Size   Euler MAE     Improved MAE   RK4 MAE")
+# Display all the results
+print("\nMAE results each of the different step sizes:")
 for i, h in enumerate(step_sizes):
-    euler_mae = mae_results["Euler"][i]
-    improved_mae = mae_results["Improved"][i]
-    rk4_mae = mae_results["RK4"][i]
-    print(f"{h:<10} {euler_mae:<13.6e} {improved_mae:<13.6e} {rk4_mae:.6e}")
+    print("h =", h)
+    print("  Euler MAE:    ", mae_results["Euler"][i])
+    print("  Improved MAE: ", mae_results["Improved"][i])
+    print("  RK4 MAE:      ", mae_results["RK4"][i])
+    print()
 
 # --------------------------------------------------------------------------------------------------------------
 # Code and comments for Task 3.4 Investigating RK stability goes here
@@ -224,11 +225,11 @@ plt.figure()
 plt.plot(t_exact, y_exact, 'k-', label='Exact Solution')
 
 #Numerical methods
-plt.plot(*solutions["Euler"], 'ro-', label="Euler")
-plt.plot(*solutions["Improved"], 'go-', label="Improved Euler")
-plt.plot(*solutions["RK4"], 'bo-', label="Classic RK4")
-
-# Add labels and legend
+plt.plot(*solutions["Euler"], 'r' 'o-', label="Euler")
+plt.plot(*solutions["Improved"], 'g' 'o-', label="Improved Euler")
+plt.plot(*solutions["RK4"], 'b' 'o-', label="Classic RK4")
+# Add labels
+plt.grid(True)
 plt.title("Stability Comparison with h = 0.5")
 plt.xlabel("Time (t)")
 plt.ylabel("y(t)")
