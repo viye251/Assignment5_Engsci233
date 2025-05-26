@@ -131,9 +131,9 @@ for i, h in enumerate(step_sizes):
 plt.figure()
 
 # Plotting each method
-plt.plot(step_sizes, mae_results["Euler"], 'o-', label="Euler")
-plt.plot(step_sizes, mae_results["Improved"], 's-', label="Improved Euler")
-plt.plot(step_sizes, mae_results["RK4"], '^-', label="Classic RK4")
+plt.plot(step_sizes, mae_results["Euler"], 'b' 'o-', label="Euler")
+plt.plot(step_sizes, mae_results["Improved"], 'r' 'o-', label="Improved Euler")
+plt.plot(step_sizes, mae_results["RK4"], 'g' 'o-', label="Classic RK4")
 
 # Axis labels and title
 plt.xlabel("Step size (h)")
@@ -146,4 +146,44 @@ plt.legend()
 plt.savefig("numericalErrorRKmethods.jpg")
 plt.close()
 
+# --------------------------------------------------------------------------------------------------------------
+# Task 3.5: Investigating Numerical Stability in RK Methods
+
+# Step size to test for stability
+h_stability = 0.5
+tspan = [0, 2]
+y0 = 4
+
+# Solve ODE with each RK method using h = 0.5
+solutions = {}
+
+for method_name, (alpha, beta, gamma) in rk_tableaux.items():
+    t_vals, y_vals = explicit_rk_solver(derivative_ode1, tspan, y0, h_stability, alpha, beta, gamma)
+    solutions[method_name] = (np.array(t_vals), np.array(y_vals))
+
+# Compute exact solution at same time points as one of the solvers
+t_exact = solutions["Euler"][0]
+y_exact = exact_solution_ode1(t_exact)
+
+# Plot all solutions
+plt.figure()
+
+# Exact solution
+plt.plot(t_exact, y_exact, 'k-', label='Exact Solution')
+
+# Numerical methods
+plt.plot(*solutions["Euler"], 'ro-', label="Euler")
+plt.plot(*solutions["Improved"], 'go-', label="Improved Euler")
+plt.plot(*solutions["RK4"], 'bo-', label="Classic RK4")
+
+# Add labels and legend
+plt.title("Stability Comparison with h = 0.5")
+plt.xlabel("Time (t)")
+plt.ylabel("y(t)")
+plt.legend()
+# plt.grid(True)
+
+# Save plot
+plt.savefig("stabilityRKmethods.jpg")
+plt.close()
 
