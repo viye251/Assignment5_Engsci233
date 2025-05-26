@@ -23,15 +23,61 @@ def difference_squares(x, y):
 
 
 def relative_error_subtraction(x, y, z_exact):
-    """ TODO
     """
-    pass
+    Calculates and displays the subtraction of two floats,
+    and computes the relative error between the approximate and exact result.
+
+    Parameters:
+    x (float): first number
+    y (float): second number
+    z_exact (float): exact value of x - y
+
+    Returns:
+    None
+    """
+    z_approx = x - y
+
+    print("The value of x to 64dp is:")
+    print(f"{x:.64f}")
+
+    print("The value of y to 64dp is:")
+    print(f"{y:.64f}")
+
+    print("The approximate value of z to 64dp is:")
+    print(f"{z_approx:.64f}")
+
+    print("The exact value of z to 64dp is:")
+    print(f"{z_exact:.64f}")
+
+    if z_exact != 0:
+        relative_error = abs(z_approx - z_exact) / abs(z_exact)
+
+    else:
+        relative_error = float('inf')
+
+    print("The relative error to 16dp is:", end=" ")
+    print(f"{relative_error:.16f}")
+
 
 
 def exact_solution_ode1(t):
-    """ TODO
     """
-    pass
+    Calculates the exact solution to the ODE:
+    dy/dt + 5y = 2e^(-5t), y(0) = 4
+
+    The solution is: y(t) = e^(-5t) * (2t + 4)
+
+    Parameters
+    ----------
+    t : float or 1D numpy array
+        Time value(s) at which to evaluate the solution
+
+    Returns
+    -------
+    y_exact : float or numpy array
+        Exact solution evaluated at t
+    """
+    return np.exp(-5 * t) * (2 * t + 4)
 
 
 def mean_absolute_error(y_exact, y_approx):
@@ -41,9 +87,29 @@ def mean_absolute_error(y_exact, y_approx):
 
 
 def derivative_ode1(t, y):
-    """ TODO
     """
-    pass
+    Computes dy/dt for the ODE:
+    dy/dt + 5y = 2e^(-5t)
+
+    Rearranged as:
+    dy/dt = 2e^(-5t) - 5y
+
+    Parameters
+    ----------
+    t : float
+        Independent variable (time)
+    y : float
+        Dependent variable
+
+    Returns
+    -------
+    dydt : float
+        Derivative dy/dt at given t and y
+    """
+    dydt = 2 * np.exp(-5 * t) - 5 * y
+
+    return dydt
+
 
 
 def euler_step(f, t, y, h):
