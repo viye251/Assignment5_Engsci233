@@ -11,8 +11,8 @@ difference_squares(x, y)
 # a, b, c) Comments:
 
 # -------------------------------------------------------------------
-
 # Code and comments for Task 1.4: numerical error in relative_error_subtraction goes here
+
 x = 1 + 1e-15
 y = 1 + 2e-15
 z_exact = -1e-15
@@ -20,16 +20,10 @@ z_exact = -1e-15
 relative_error_subtraction(x, y, z_exact)
 
 # a) What is the relative error in z?
-# The relative error is: 0.0000000000000000
 
 # b) What causes the relative error?
-# Two main causes:
-# 1. Floating-point precision limits: At this scale (1e-15), Python may round off or truncate digits.
-# 2. Cancellation error: Subtracting two nearly equal numbers can lose significant digits,
-#    leading to higher relative error if not computed with enough precision.
 
 # -------------------------------------------------------------------
-
 # Code for Task 2.4: numerically solving the ODE goes here
 
 # a) Numerical solution using solve_ivp (t(0) to t(2))
@@ -52,9 +46,10 @@ plt.figure()
 plt.plot(t_values, y_exact, 'b-', label='Exact solution')
     # Red circles for numerical solution
 plt.plot(t_values, y_numerical, 'ro', label='Numerical solution')
+    # Graph Title and Labels
 plt.title('Comparison of Exact and Numerical Solutions')
-plt.xlabel('Time/t')
-plt.ylabel('Solution/y')
+plt.xlabel('Time/(t)')
+plt.ylabel('Solution/(y)')
 plt.legend()
 
 # d) Save the figure
@@ -64,7 +59,7 @@ plt.close()
 # Code and comments for Task 2.6: investigating the MAE goes here
 
 mae = mean_absolute_error(y_exact, y_numerical)
-print(f"Mean Absolute Error = {mae:.6f}")
+print(f"Mean Absolute Error = {mae:.4f}")
 
 # a) What is the value of MAE when solving the given ODE?
 
@@ -80,6 +75,7 @@ beta_euler = np.array([0.])
 gamma_euler = np.array([[0.]])
 
 # Code and comments for Task 3.3 Investigating RK numerical error goes here
+
 
 
 # Code and comments for Task 3.4 Investigating RK stability goes here

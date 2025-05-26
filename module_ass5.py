@@ -209,14 +209,98 @@ def classic_rk4_step(f, t, y, h):
 
 
 def explicit_rk_step(f, t, y, h, alpha, beta, gamma):
-    """ TODO
     """
-    pass
+        Perform a single step of an explicit Runge-Kutta method.
+
+    Parameters
+    ----------
+    f : function
+        Derivative function f(t, y).
+    t : float
+        Current value of independent variable.
+    y : float
+        Current value of dependent variable.
+    h : float
+        Step size.
+    alpha : list of float
+        Weights from Butcher tableau.
+    beta : list of float
+        Nodes from Butcher tableau.
+    gamma : list of list of float
+        RK matrix from Butcher tableau.
+
+    Returns
+    -------
+    y_new : float
+        New value of dependent variable after one RK step.
+    """
+    n = len(alpha)
+    # Store derivative values at each stage
+    f_values = [0.0] * n
+
+    for i in range(n):
+        # Calc. the time point
+        t_i = t + beta[i] * h
+        # Cal. immediate y value at this stage
+        y_i = y
+        for j in range(i):
+            y_i += h * gamma[i][j] * f_values[j]
+            # Now start calculating the derivative
+        f_values[i] = f(t_i, y_i)
+
+    y_new = y
+    for i in range(n):
+        y_new += h * alpha[i] * f_values[i]
+    # new value of y after one RK step
+    return y_new
 
 
 def explicit_rk_solver(f, tspan, y0, h, alpha, beta, gamma):
-    """ TODO
     """
-    pass
+        Solve a first-order ODE using an explicit Runge-Kutta method.
 
+    Parameters
+    ----------
+    f : function
+        Derivative function f(t, y).
+    tspan : list of float
+        [t_start, t_end] time interval.
+    y0 : float
+        Initial y value.
+    h : float
+        Step size.
+    alpha : list of float
+        Weights from the Butcher tableau.
+    beta : list of float
+        Nodes from the Butcher tableau.
+    gamma : list of list of float
+        RK matrix from the Butcher tableau.
 
+    Returns
+    -------
+    t : list of float
+        Time values from t_start to t_end (inclusive).
+    y : list of float
+        Corresponding y values at each step.
+    """
+    t_start = tspan[0]
+    t_end = tspan[1]
+    # calc. total number of steps
+    n_steps = int((t_end - t_start) / h)
+
+    t = [0.0] * (n_steps + 1)
+    y = [0.0] * (n_steps + 1)
+
+    # set the initial values
+    t[0] = t_start
+    y[0] = y0
+
+    for i in range(n_steps):
+        t_current = t[i]
+        y_current = y[i]
+        y_next = explicit_rk_step(f, t_current, y_current, h, alpha, beta, gamma)
+        # store the following values for t and y
+        t[i + 1] = t_current + h
+        y[i + 1] = y_next
+
+    return t, y
